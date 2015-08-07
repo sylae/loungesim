@@ -76,9 +76,11 @@ l("Loading libraries...");
 require_once 'qp.php'; // don't fall for that 2.x crap.
 require_once 'JAXL/jaxl.php';
 require_once 'MDB2.php';
+require_once 'ermarian-converters/markov/markov.inc';
 
 require_once 'classes/ligrevCommand.php';
 require_once 'classes/roster.php';
+require_once 'classes/markov.php';
 
 l("[DB] Connecting to database...");
 $db = & \MDB2::singleton($config['db']);
@@ -119,9 +121,6 @@ $client->add_cb('on_auth_success', function() {
   l("[JAXL] Joined room " . $rooms->to_string());
 });
 
-$roster = new roster();
-$decks = array();
-
 $client->add_cb('on_auth_failure', function($reason) {
   global $client;
   $client->send_end_stream();
@@ -129,12 +128,10 @@ $client->add_cb('on_auth_failure', function($reason) {
 });
 
 // Where the magic happens. "Magic" "Happens". I dunno why I type this either.
-$client->add_cb('on_groupchat_message', function($stanza) {
-  new ligrevCommand($stanza, "groupchat");
-});
 $client->add_cb('on_chat_message', function($stanza) {
-  global $config, $client;
-  $client->xeps['0045']->send_groupchat($config['sim'], "I should say a message!");
+  global $config, $client, $source;
+  $m = new markov($source);
+  $client->xeps['0045']->send_groupchat($config['sim'], $m->markoved);
 });
 
 $client->start();
