@@ -1,8 +1,0 @@
-define min(x,y) {
-  if (x<y) return x
-  return y
-}
-define max(x,y) {
-  if (x>y) return x
-  return y
-}
