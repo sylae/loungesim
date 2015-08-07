@@ -78,17 +78,7 @@ require_once 'JAXL/jaxl.php';
 require_once 'MDB2.php';
 
 require_once 'classes/ligrevCommand.php';
-require_once 'classes/bc.php';
-require_once 'classes/dice.php';
-require_once 'classes/command.php';
 require_once 'classes/roster.php';
-
-require_once 'commands/roll.php';
-require_once 'commands/slap.php';
-require_once 'commands/diag.php';
-require_once 'commands/card.php';
-require_once 'commands/shuffle.php';
-require_once 'commands/sybeam.php';
 
 l("[DB] Connecting to database...");
 $db = & \MDB2::singleton($config['db']);
