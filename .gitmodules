@@ -4,3 +4,6 @@
 [submodule "lib/ermarian-converters"]
 	path = lib/ermarian-converters
 	url = https://github.com/cburschka/ermarian-converters.git
+[submodule "lib/jwt"]
+	path = lib/jwt
+	url = https://github.com/firebase/php-jwt.git
