@@ -11,9 +11,6 @@ $config['jaxl'] = array(
 	'host' => 'example.net',
 );
 
-$config['rooms'] = array(
-  'lounge' => 'lounge@conference.example.net',
-);
-
+$config['rooms'] = 'lounge@conference.example.net';
 
 $config['botname'] = "Ligrev";
