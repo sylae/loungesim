@@ -1,13 +1,12 @@
-Ligrev
+LoungeSim
 ======
 
-XMPP MUC Utility bot
+XMPP Chatroom Simulation using Markov Chains
 
-Ligrev provides several useful features for XMPP MUC chats, such as a dice roller, log recording, and so on.
+LoungeSim provides no useful features for XMPP MUC chats.
 
 Requirements
 ------------
 
 * PHP 5
 * JAXL (Included as submodule)
-* GNU bc
