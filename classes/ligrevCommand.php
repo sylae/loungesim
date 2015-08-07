@@ -40,8 +40,10 @@ class ligrevCommand {
         if ($config['log']) {
           $jid = new \XMPPJid($roster->nickToJid($this->room, $this->author));
           $jid = $jid->bare;
-          $query = 'INSERT INTO markov (user, text) VALUES ('
+          $length = count(explode(" ", $this->text));
+          $query = 'INSERT INTO markov (user, words, text) VALUES ('
             . $db->quote($jid, 'text') . ', '
+            . $db->quote($length, 'integer') . ', '
             . $db->quote($this->text, 'text') . ')';
           $db->exec($query);
         }
