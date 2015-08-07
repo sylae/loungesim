@@ -48,25 +48,7 @@ class ligrevCommand {
       } else {
         l("[MUC] Rec'd message (delayed)");
       }
-      $preg = "/^[\/:!](\w+)(\s|$)/";
-      if (preg_match($preg, $this->text, $match) && class_exists("Ligrev\\" . $match[1])) {
-        $class = "Ligrev\\" . $match[1];
-        $command = new $class($stanza, $this->origin);
-        $command->process();
-      }
     }
-  }
-
-  function kickOccupant($nick, $roomJid, $reason = false, $callback = false) {
-    global $client;
-    $payload = "<iq from='" . $client->jid->to_string() . "'id='ligrev_" . time() . "'to='" . $roomJid . "'type='set'>
-  <query xmlns='http://jabber.org/protocol/muc#admin'>
-    <item nick='" . $nick . "' role='none'>
-      <reason>" . $reason . "</reason>
-    </item>
-  </query>
-</iq>";
-    $client->send_raw($payload);
   }
 
 }
