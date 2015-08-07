@@ -87,6 +87,16 @@ if (\PEAR::isError($db)) {
 }
 $db->loadModule('Extended', null, false);
 
+l("Getting identity...");
+if ($argc >= 2) {
+  $source = $argv[1];
+  $nick = $argv[2];
+} else {
+  l("No identity!", L_AAAA);
+  die();
+}
+$config['botname'] .= $nick;
+
 l("[JAXL] Loading JAXL and connecting...");
 $client = new \JAXL($config['jaxl']);
 
@@ -96,8 +106,6 @@ $client->require_xep(array(
   '0199'  // XMPP Ping
 ));
 
-$rooms = array();
-
 $client->add_cb('on_auth_success', function() {
   global $client, $config, $rooms;
   l("[JAXL] Connected with jid " . $client->full_jid->to_string());
@@ -105,12 +113,10 @@ $client->add_cb('on_auth_success', function() {
   $client->get_roster();
   $client->set_status("", "chat", 10);
 
-  foreach ($config['rooms'] as $id => $jid) {
-    $rooms[$id] = new \XMPPJid($jid . '/' . $config['botname']);
-    l("[JAXL] Joining room " . $rooms[$id]->to_string());
-    $client->xeps['0045']->join_room($rooms[$id]);
-    l("[JAXL] Joined room " . $rooms[$id]->to_string());
-  }
+  $rooms = new \XMPPJid($config['sim'] . '/' . $config['botname']);
+  l("[JAXL] Joining room " . $rooms->to_string());
+  $client->xeps['0045']->join_room($rooms);
+  l("[JAXL] Joined room " . $rooms->to_string());
 });
 
 $roster = new roster();
@@ -127,11 +133,8 @@ $client->add_cb('on_groupchat_message', function($stanza) {
   new ligrevCommand($stanza, "groupchat");
 });
 $client->add_cb('on_chat_message', function($stanza) {
-  new ligrevCommand($stanza, "chat");
-});
-$client->add_cb('on_presence_stanza', function($stanza) {
-  global $roster;
-  $roster->ingest($stanza);
+  global $config, $client;
+  $client->xeps['0045']->send_groupchat($config['sim'], "I should say a message!");
 });
 
 $client->start();
