@@ -1,3 +1,6 @@
 [submodule "lib/JAXL"]
 	path = lib/JAXL
 	url = https://github.com/abhinavsingh/JAXL.git
+[submodule "lib/ermarian-converters"]
+	path = lib/ermarian-converters
+	url = https://github.com/cburschka/ermarian-converters.git
