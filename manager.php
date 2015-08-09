@@ -104,7 +104,7 @@ $client->add_cb('on_auth_success', function() {
     $say = mt_rand(0, mt_getrandmax()) / mt_getrandmax();
     if ($say > 0.5) {
       // go on liz, declare war!
-      $im = 'loungesim_' . $config['impersonate'][array_rand($config['impersonate'])];
+      $im = 'loungesim_' . $config['sim_prefix'] . $config['impersonate'][array_rand($config['impersonate'])];
       $p = array(
         'aud' => $im,
         'iat' => time(),

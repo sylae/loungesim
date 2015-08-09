@@ -100,7 +100,7 @@ if ($argc >= 2) {
   l("No identity!", L_AAAA);
   die();
 }
-$config['botname'] .= $nick;
+$config['sim_prefix'] .= $nick;
 
 l("[JAXL] Loading JAXL and connecting...");
 $client = new \JAXL($config['jaxl']);
@@ -118,12 +118,12 @@ $client->add_cb('on_auth_success', function() {
   $client->get_roster();
   $client->set_status("", "chat", 10);
 
-  $ctrl = new \XMPPJid($config['LCN_control'] . '/' . $config['botname']);
+  $ctrl = new \XMPPJid($config['LCN_control'] . '/' . $config['sim_prefix']);
   l("[JAXL] Joining room " . $ctrl->to_string());
   $client->xeps['0045']->join_room($ctrl);
   l("[JAXL] Joined room " . $ctrl->to_string());
 
-  $rooms = new \XMPPJid($config['sim'] . '/' . $config['botname']);
+  $rooms = new \XMPPJid($config['sim'] . '/' . $config['sim_prefix']);
   l("[JAXL] Joining room " . $rooms->to_string());
   $client->xeps['0045']->join_room($rooms);
   l("[JAXL] Joined room " . $rooms->to_string());
@@ -140,7 +140,7 @@ $client->add_cb('on_groupchat_message', function($stanza) {
   global $config, $client, $source, $nick;
   if (LCN::isLWT($stanza->body)) {
     $p = new LCN($stanza->body);
-    if (!array_key_exists('LCNerror', $p->res) && $p->res['aud'] == 'loungesim_' . $nick) {
+    if (!array_key_exists('LCNerror', $p->res) && $p->res['aud'] == 'loungesim_' . $config['sim_prefix']) {
       $m = new markov($source);
       $client->xeps['0045']->send_groupchat($config['sim'], $m->markoved);
     }
