@@ -104,10 +104,12 @@ $client->add_cb('on_auth_failure', function($reason) {
 });
 
 $w1 = new \EvTimer(1, 1, function ($w) {
-  global $client;
-  $say = rand(1,100);
+  global $client, $config;
+  $say = mt_rand(1,1000);
   l($say);
-  $client->send_chat_msg("sylae@calref.net", $say);
+  if ($say > 9) {
+    $client->send_chat_msg($config['jaxl']['jid'], $say);
+  }
 });
 
 $client->start();
