@@ -106,7 +106,7 @@ $w1 = new \EvTimer(1, 1, function ($w) {
   global $client;
   $say = rand(1,100);
   l($say);
-  $client->send_chat_msg("sylae@calref.net", $say);
+  $client->send_chat_msg(new \XMPPJid("sylae@calref.net"), $say);
 });
 
 \Ev::run();
