@@ -94,6 +94,12 @@ $client->add_cb('on_auth_success', function() {
   $client->get_vcard();
   $client->get_roster();
   $client->set_status("", "chat", 10);
+
+  $rooms = new \XMPPJid($config['LCN_control'] . '/' . 'loungeSimManager');
+  l("[JAXL] Joining room " . $rooms->to_string());
+  $client->xeps['0045']->join_room($rooms);
+  l("[JAXL] Joined room " . $rooms->to_string());
+
   \Ev::run();
 });
 
@@ -105,10 +111,10 @@ $client->add_cb('on_auth_failure', function($reason) {
 
 $w1 = new \EvTimer(1, 1, function ($w) {
   global $client, $config;
-  $say = mt_rand(1,1000);
+  $say = mt_rand(1, 1000);
   l($say);
   if ($say > 9) {
-    $client->send_chat_msg($config['jaxl']['jid'], $say);
+    $client->xeps['0045']->send_groupchat($config['LCN_control'], $say);
   }
 });
 
