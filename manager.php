@@ -99,23 +99,26 @@ $client->add_cb('on_auth_success', function() {
   l("[JAXL] Joining room " . $rooms->to_string());
   $client->xeps['0045']->join_room($rooms);
   l("[JAXL] Joined room " . $rooms->to_string());
-
-  \Ev::run();
+  \JAXLLoop::$clock->call_fun_periodic(5000000, function ($w) {
+    global $client, $config;
+    $say = mt_rand(0, mt_getrandmax()) / mt_getrandmax();
+    if ($say > 0.5) {
+      // go on liz, declare war!
+      $im = 'loungesim_' . $config['impersonate'][array_rand($config['impersonate'])];
+      $p = array(
+        'aud' => $im,
+        'iat' => time(),
+      );
+      $lcn = new LCN($p);
+      $client->xeps['0045']->send_groupchat($config['LCN_control'], $lcn->res);
+    }
+  });
 });
+
 
 $client->add_cb('on_auth_failure', function($reason) {
   global $client;
   $client->send_end_stream();
   l("[JAXL] Auth failure: " . $reason, L_WARN);
 });
-
-$w1 = new \EvTimer(1, 1, function ($w) {
-  global $client, $config;
-  $say = mt_rand(1, 1000);
-  l($say);
-  if ($say > 9) {
-    $client->xeps['0045']->send_groupchat($config['LCN_control'], $say);
-  }
-});
-
 $client->start();
