@@ -118,6 +118,11 @@ $client->add_cb('on_auth_success', function() {
   $client->get_roster();
   $client->set_status("", "chat", 10);
 
+  $ctrl = new \XMPPJid($config['LCN_control'] . '/' . $config['botname']);
+  l("[JAXL] Joining room " . $ctrl->to_string());
+  $client->xeps['0045']->join_room($ctrl);
+  l("[JAXL] Joined room " . $ctrl->to_string());
+
   $rooms = new \XMPPJid($config['sim'] . '/' . $config['botname']);
   l("[JAXL] Joining room " . $rooms->to_string());
   $client->xeps['0045']->join_room($rooms);
@@ -131,7 +136,7 @@ $client->add_cb('on_auth_failure', function($reason) {
 });
 
 // Where the magic happens. "Magic" "Happens". I dunno why I type this either.
-$client->add_cb('on_chat_message', function($stanza) {
+$client->add_cb('on_groupchat_message', function($stanza) {
   global $config, $client, $source, $nick;
   if (LCN::isLWT($stanza->body)) {
     $p = new LCN($stanza->body);
