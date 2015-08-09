@@ -75,12 +75,15 @@ require_once 'config.php';
 l("Loading libraries...");
 require_once 'qp.php'; // don't fall for that 2.x crap.
 require_once 'JAXL/jaxl.php';
+require_once 'jwt/src/JWT.php';
+require_once 'jwt/src/SignatureInvalidException.php';
 require_once 'MDB2.php';
 require_once 'ermarian-converters/markov/markov.inc';
 
 require_once 'classes/ligrevCommand.php';
 require_once 'classes/roster.php';
 require_once 'classes/markov.php';
+require_once 'classes/LCN.php';
 
 l("[DB] Connecting to database...");
 $db = & \MDB2::singleton($config['db']);
