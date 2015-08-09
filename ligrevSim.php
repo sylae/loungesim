@@ -132,9 +132,14 @@ $client->add_cb('on_auth_failure', function($reason) {
 
 // Where the magic happens. "Magic" "Happens". I dunno why I type this either.
 $client->add_cb('on_chat_message', function($stanza) {
-  global $config, $client, $source;
-  $m = new markov($source);
-  $client->xeps['0045']->send_groupchat($config['sim'], $m->markoved);
+  global $config, $client, $source, $nick;
+  if (LCN::isLWT($stanza->body)) {
+    $p = new LCN($stanza->body);
+    if (!array_key_exists('LCNerror', $p->res) && $p->res['aud'] == 'loungesim_' . $nick) {
+      $m = new markov($source);
+      $client->xeps['0045']->send_groupchat($config['sim'], $m->markoved);
+    }
+  }
 });
 
 $client->start();

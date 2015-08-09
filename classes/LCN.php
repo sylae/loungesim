@@ -30,7 +30,10 @@ class LCN {
       $r = array(
         'LCNerror' => $ex->getMessage()
       );
+      l("[LCN] rx packet - ".$ex->getMessage());
+      return $r;
     }
+    l("[LCN] rx packet encoded for ".$r['aud']);
     return $r;
   }
 
