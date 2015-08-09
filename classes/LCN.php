@@ -39,6 +39,7 @@ class LCN {
 
   function encode($payload) {
     global $config;
+    l("[LCN] tx packet encoded for ".$payload['aud']);
     return '$LCN$' . \Firebase\JWT\JWT::encode($payload, $config['LCN_key']);
   }
   
