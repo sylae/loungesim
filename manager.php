@@ -109,6 +109,6 @@ $w1 = new \EvTimer(1, 1, function ($w) {
   $client->send_chat_msg("sylae@calref.net", $say);
 });
 
-Ev::run();
+\Ev::run();
 
 $client->start();
