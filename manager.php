@@ -94,6 +94,7 @@ $client->add_cb('on_auth_success', function() {
   $client->get_vcard();
   $client->get_roster();
   $client->set_status("", "chat", 10);
+  \Ev::run();
 });
 
 $client->add_cb('on_auth_failure', function($reason) {
@@ -108,7 +109,5 @@ $w1 = new \EvTimer(1, 1, function ($w) {
   l($say);
   $client->send_chat_msg(new \XMPPJid("sylae@calref.net"), $say);
 });
-
-\Ev::run();
 
 $client->start();
