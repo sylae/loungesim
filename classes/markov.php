@@ -35,7 +35,7 @@ class markov {
     $r = $mean + $dev * sqrt(-2 * log($r1)) * cos(2 * pi() * $r2);
     $analysis = w_build_relations($input, 2);
     $output = w_generate_text($analysis, $r);
-    $this->markoved = trim($output);
+    $this->markoved = html_entity_decode(trim($output));
   }
 
 }
